@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fijo.fileservice.mapper.FileUploadMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fijo.fileservice.model.FileUpload">
+        <id column="ID" property="id" />
+        <result column="TENANT" property="tenant" />
+        <result column="MODULAR" property="modular" />
+        <result column="ORG_CODE" property="orgCode" />
+        <result column="OBJECT_ID" property="objectId" />
+        <result column="FILE_NAME" property="fileName" />
+        <result column="FILE_NEW_NAME" property="fileNewName" />
+        <result column="FILE_PATH" property="filePath" />
+        <result column="FILE_CLASS" property="fileClass" />
+        <result column="FILE_SIZE" property="fileSize" />
+        <result column="_DESC" property="desc" />
+        <result column="FILE_USECASE" property="fileUsecase" />
+        <result column="ENABLED" property="enabled" />
+        <result column="REMOVED" property="removed" />
+        <result column="CREATE_USER_ID" property="createUserId" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_USER_ID" property="updateUserId" />
+        <result column="UPDATE_USER_NAME" property="updateUserName" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID AS "id", TENANT AS "tenant", MODULAR AS "modular", ORG_CODE AS "orgCode", OBJECT_ID AS "objectId", FILE_NAME AS "fileName",
+         FILE_NEW_NAME AS "fileNewName", FILE_PATH AS "filePath", FILE_CLASS AS "fileClass", FILE_SIZE AS "fileSize",
+          _DESC AS "desc", FILE_USECASE AS "fileUsecase", CREATE_TIME AS "createTime", CREATE_NAME AS "createName", CREATE_U_ID AS "createUId", UPDATE_TIME AS "updateTime", UPDATE_NAME AS "updateName", UPDATE_U_ID AS "updateUId", OPERATE_IP AS "operateIp"
+    </sql>
+
+
+
+    <select id="getAll" parameterType="com.fijo.fileservice.model.FileUpload" resultMap="BaseResultMap" flushCache="true">
+      SELECT * from fileUplod where 1=1
+        <if test="id != null">
+            and ID= #{id}
+        </if>
+        <if test="tenant != null and tenant!=''">
+            and TENANT= #{tenant}
+        </if>
+        <if test="modular != null and modular!=''">
+            and MODULAR= #{modular}
+        </if>
+        <if test="objectId != null and objectId!=''">
+            and OBJECT_ID= #{objectId}
+        </if>
+
+    </select>
+
+
+    <insert id="createTo" parameterType="com.fijo.fileservice.model.FileUpload"   useGeneratedKeys="true" keyProperty="id"  >
+      INSERT INTO fileUplod (ENABLED,REMOVED,CREATE_USER_ID,CREATE_USER_NAME,CREATE_TIME,UPDATE_TIME,UPDATE_USER_ID,UPDATE_USER_NAME,
+     TENANT,MODULAR,ORG_CODE,OBJECT_ID,FILE_NAME,FILE_NEW_NAME,FILE_PATH,FILE_CLASS,FILE_SIZE,_DESC,FILE_USECASE,OPERATE_IP)
+		VALUES (#{enabled},#{removed},#{createUserId},#{createUserName},#{createTime},#{updateTime},#{updateUserId},#{updateUserName},
+     #{tenant},#{modular},#{orgCode},#{objectId},#{fileName},#{fileNewName},#{filePath},#{fileClass},#{fileSize},#{desc},#{fileUsecase},#{operateIp})
+    </insert>
+
+    <update id="updateTo" parameterType="com.fijo.fileservice.model.FileUpload" flushCache="true"  >
+        UPDATE fileUplod
+        <set>
+            <if test="enabled != null">enabled=#{enabled},</if>
+            <if test="removed != null">REMOVED=#{removed},</if>
+            <if test="objectId != null">OBJECT_ID=#{objectId},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>
